@@ -1,0 +1,84 @@
+{% extends 'master/base.html' %}
+
+{% block content %}
+   <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold mb-0">
+            <i class="bi bi-briefcase-fill text-primary"></i>
+            My Applications
+        </h2>
+
+        <span class="badge bg-primary rounded-pill fs-6 px-3 py-2">
+            {{ application_list|length }} Applied
+        </span>
+    </div>
+
+    {% for job in application_list %}
+
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+        <div class="card-body">
+
+            <div class="row align-items-center">
+
+                <!-- Logo -->
+                <div class="col-lg-2 col-md-3 text-center mb-3 mb-md-0">
+
+                    <img src="{{ job.applied_job.posted_by.logo.url }}"
+                        class="rounded-circle border p-1"
+                        style="width:90px;height:90px;object-fit:cover;"
+                        alt="Company Logo">
+
+                </div>
+
+                <!-- Details -->
+                <div class="col-lg-7 col-md-6">
+
+                    <h4 class="fw-bold mb-2">
+                        {{ job.applied_job.title }}
+                    </h4>
+
+                    <p class="text-secondary mb-3">
+                        <i class="bi bi-building"></i>
+                        {{ job.applied_job.posted_by.company_name }}
+                    </p>
+
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+
+                        <span class="badge bg-primary rounded-pill px-3 py-2">
+                            <i class="bi bi-tag-fill"></i>
+                            {{ job.applied_job.category.name }}
+                        </span>
+
+                        <span class="badge bg-light text-dark border rounded-pill px-3 py-2">
+                            <i class="bi bi-calendar-event text-danger"></i>
+                            Deadline: {{ job.applied_job.deadline }}
+                        </span>
+
+                        <span class="badge bg-light text-dark border rounded-pill px-3 py-2">
+                            <i class="bi bi-clock-history text-success"></i>
+                            Applied: {{ job.applied_at }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <!-- Status -->
+                <div class="col-lg-3 col-md-3 text-md-end text-center">
+                        <span class="badge bg-secondary fs-6 rounded-pill px-4 py-3">
+                            {{ job.status }}
+                        </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {% endfor %}
+
+{% endblock %}
+

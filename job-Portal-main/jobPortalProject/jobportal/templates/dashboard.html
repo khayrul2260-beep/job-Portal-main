@@ -1,0 +1,114 @@
+{% extends 'master/base.html' %}
+
+
+{% block content %}
+    <h3>Welcome to {{request.user.username}}</h3>
+    <p>
+        Skill Match Job List
+    </p>
+
+        {% for job in job_data %}
+  <div class="card border-0 shadow-sm rounded-4 mb-4 job-card">
+    <div class="card-body p-4">
+      <div class="row align-items-center">
+
+        <!-- Company Logo -->
+        <div class="col-lg-2 col-md-3 text-center mb-3 mb-md-0">
+          <img src="{{ job.posted_by.logo.url }}"
+               alt="{{ job.posted_by.company_name }}"
+               class="img-fluid rounded-circle border shadow"
+               style="width:90px;height:90px;object-fit:cover;">
+        </div>
+
+        <!-- Job Details -->
+        <div class="col-lg-7 col-md-6">
+
+          <div class="d-flex align-items-center mb-2">
+            <h4 class="fw-bold mb-0 me-2">
+              {{ job.title }}
+            </h4>
+
+            <span class="badge bg-success">
+              {{ job.category.name }}
+            </span>
+          </div>
+
+          <p class="text-muted mb-2">
+            <i class="bi bi-building"></i>
+            <strong>{{ job.posted_by.company_name }}</strong>
+          </p>
+
+          <p class="mb-2">
+            <i class="bi bi-tools text-primary"></i>
+            {{ job.skills_set }}
+          </p>
+
+          <div class="d-flex flex-wrap gap-3">
+
+            <span class="badge bg-light text-dark border px-3 py-2">
+              <i class="bi bi-cash-stack text-success"></i>
+              {{ job.salary }}
+            </span>
+
+            <span class="badge bg-light text-danger border px-3 py-2">
+              <i class="bi bi-calendar-event"></i>
+              {{ job.deadline }}
+            </span>
+
+          </div>
+
+        </div>
+
+        <!-- Buttons -->
+        <div class="col-lg-3 col-md-3 text-md-end mt-3 mt-md-0">
+
+            
+            {% if request.user.user_type == 'Recruiter' %}
+            <a href="{% url 'update_job_view' job.id %}"
+             class="btn btn-warning rounded-pill px-4 mb-2 w-100">
+            <i class="bi bi-pencil-square"></i>
+            Edit
+          </a>
+
+          <a href="{% url 'delete_job_view' job.id %}"
+             class="btn btn-outline-danger rounded-pill px-4 mb-2 w-100">
+            <i class="bi bi-trash"></i>
+            Delete
+          </a>
+           <a href="{% url 'candidate_list_view' job.id %}"
+        class="btn btn-success rounded-pill px-4 mb-2 w-100">
+            <i class="bi bi-send-check"></i>
+           Candidate List
+        </a>
+                
+            {% endif %}
+
+            <a href=""
+              class="btn btn-outline-primary rounded-pill px-4 mb-2 w-100">
+                <i class="bi bi-eye"></i>
+                View Details
+            </a>
+
+            {% if request.user.user_type != 'Recruiter' %}
+               <a href="{% url 'apply_job_view' job.id %}"
+        class="btn btn-success rounded-pill px-4 mb-2 w-100">
+            <i class="bi bi-send-check"></i>
+            Apply Now
+        </a>
+            {% endif %}
+
+       
+                
+
+
+          
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+{% endblock content %}
+    
